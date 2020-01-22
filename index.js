@@ -29,7 +29,7 @@ async function Course() {
     let data = await authorcourse.save();
     console.log(data);
 }
-// Course();
+Course();
 
 //Fetch record
 // $gt,$gte,$lt,$lte,$eq,$neq,$in,$nin
@@ -39,17 +39,19 @@ async function AllRecords() {
         // .find({ "author": "Saee" })
         // .select("author price -_id")
         // .sort("price")
-        .find(
-            {
-                "price":
-                {
-                    $gte: 350, $lte: 600
-                }
-            }
+        // .find(
+        //     {
+        //         "price":
+        //         {
+        //             $gte: 350, $lte: 600
+        //         }
+        //     }
 
-        )
-    // .select("author price -_id")
-    // .sort("-price")
+        // )
+        .find()
+        .and([{ "price": 250 }, { "author": "Harshal" }])
+        .select("author price -_id")
+        .sort("-price")
     console.log(data);
 
 }
