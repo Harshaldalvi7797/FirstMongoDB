@@ -20,13 +20,38 @@ let courseModel = mongoose.model("courses", courseSchema);
 
 async function Course() {
     let authorcourse = new courseModel({
-        author: "Harshal",
-        price: 250,
-        course: ["React", "Node JS"],
+        author: "Sham",
+        price: 550,
+        course: ["ANgular", "EXpress JS"],
         isPublished: true
 
     })
     let data = await authorcourse.save();
     console.log(data);
 }
-Course();
+// Course();
+
+//Fetch record
+// $gt,$gte,$lt,$lte,$eq,$neq,$in,$nin
+// and ,or
+async function AllRecords() {
+    let data = await courseModel
+        // .find({ "author": "Saee" })
+        // .select("author price -_id")
+        // .sort("price")
+        .find(
+            {
+                "price":
+                {
+                    $gte: 350, $lte: 600
+                }
+            }
+
+        )
+    // .select("author price -_id")
+    // .sort("-price")
+    console.log(data);
+
+}
+
+AllRecords();
