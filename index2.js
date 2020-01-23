@@ -15,7 +15,8 @@ let authorSchema = new mongoose.Schema({
 
 let courseSchema = new mongoose.Schema({
     course: { type: String, required: true },
-    authorId: { type: mongoose.Schema.Types.ObjectId, ref: "authors" }
+    // authorId: { type: mongoose.Schema.Types.ObjectId, ref: "authors" }
+    author: { type: authorSchema }
 
 })
 
@@ -34,20 +35,29 @@ async function createauthor(author, website, isPublished) {
 
 // createauthor("Vipul", "www.idea.com", true);
 
-async function createcourse(course, authorId) {
+async function createcourse(course, author) {
     let data = new courseModel({
         course,
-        authorId
+        author
     })
     let item = await data.save();
     console.log(item);
 }
 // createcourse("Javascript", "5e2937a7852ad5520859756d");
+// createcourse("Javascript", new authorsModel({
+//     author: "nick",
+//     website: "www.nick.com",
+//     isPublished: true
+// }));
 
 async function fetchdata() {
     let data = await courseModel
         .find()
         .populate("authorId")
+    // let data = await courseModel
+    //     .find()
+
     console.log(data);
 }
+
 fetchdata();
