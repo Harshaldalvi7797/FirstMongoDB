@@ -7,16 +7,47 @@ mongoose.connect("mongodb://localhost/HHD", { useNewUrlParser: true, useUnifiedT
 
 
 let authorSchema = new mongoose.Schema({
-    author: { name: String, required: true },
-    website: { name: String, required: true },
-    isPublished: { name: String, required: true }
+    author: { type: String, required: true },
+    website: { type: String, required: true },
+    isPublished: { type: Boolean, required: true }
 
 })
 
 let courseSchema = new mongoose.Schema({
-    course: { name: String, required: true }
+    course: { type: String, required: true },
+    authorId: { type: mongoose.Schema.Types.ObjectId, ref: "authors" }
 
 })
 
 let authorsModel = mongoose.model("authors", authorSchema);
 let courseModel = mongoose.model("course", courseSchema);
+
+async function createauthor(author, website, isPublished) {
+    let data = new authorsModel({
+        author,
+        website,
+        isPublished
+    })
+    let item = await data.save();
+    console.log(item);
+}
+
+// createauthor("Vipul", "www.idea.com", true);
+
+async function createcourse(course, authorId) {
+    let data = new courseModel({
+        course,
+        authorId
+    })
+    let item = await data.save();
+    console.log(item);
+}
+// createcourse("Javascript", "5e2937a7852ad5520859756d");
+
+async function fetchdata() {
+    let data = await courseModel
+        .find()
+        .populate("authorId")
+    console.log(data);
+}
+fetchdata();
